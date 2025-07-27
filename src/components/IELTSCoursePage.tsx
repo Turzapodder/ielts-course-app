@@ -13,6 +13,8 @@ import VideoTrailer from './sections/VideoTrailer';
 import CTASection from './sections/CTASection';
 import LoadingSpinner from './ui/LoadingSpinner';
 import ErrorMessage from './ui/ErrorMessage';
+import Footer from './sections/footer';
+
 
 export default function IELTSCoursePage() {
   const dispatch = useAppDispatch();
@@ -67,6 +69,7 @@ export default function IELTSCoursePage() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
