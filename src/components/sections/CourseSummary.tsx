@@ -1,18 +1,9 @@
 'use client';
 
 import React from 'react';
-import Carousel, { CarouselItem } from '../ui/Carousel';
+import Carousel from '../ui/Carousel';
 import PriceSummary from './CTASection';
-
-interface CourseSummaryProps {
-  carouselItems: CarouselItem[];
-  price: number;
-  originalPrice?: number;
-  discount?: string;
-  ctaText: string;
-  courseDetails: string[];
-  onEnroll: () => void;
-}
+import { CourseSummaryProps } from '@/types/courseSummary';
 
 const CourseSummary: React.FC<CourseSummaryProps> = ({
   carouselItems,

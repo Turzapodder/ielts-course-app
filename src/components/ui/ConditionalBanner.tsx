@@ -3,13 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-
-interface ConditionalBannerProps {
-  desktopImage: string;
-  mobileImage: string;
-  alt: string;
-  className?: string;
-}
+import { ConditionalBannerProps } from '@/types/conditionalBanner';
 
 const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
   desktopImage,
@@ -68,14 +62,15 @@ const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
         </svg>
       </button>
 
-      {/* Desktop Image */}
-      <div className="hidden md:block w-full">
+      <div className='hidden w-auto sm:block'>
+        {/* Desktop Image */}
+      <div className="hidden md:block w-auto">
         <Image
           src={desktopImage}
           alt={alt}
-          width={1920}
+          width={1800}
           height={400}
-          className="w-full h-auto object-cover"
+          className="max-w-[1800px] w-full h-auto object-cover mx-auto"
           priority
         />
       </div>
@@ -90,6 +85,7 @@ const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
           className="w-full h-auto object-cover"
           priority
         />
+      </div>
       </div>
     </div>
   );

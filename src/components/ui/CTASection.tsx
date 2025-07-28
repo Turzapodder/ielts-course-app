@@ -2,24 +2,19 @@ import React from 'react';
 import { CTASectionProps } from '@/types/ctaSection';
 
 const CTASection: React.FC<CTASectionProps> = ({
-  price,
-  originalPrice,
-  discount,
-  ctaText,
   courseDetails,
-  onEnroll
 }) => {
+  function onEnroll(event: any): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <div className="p-4 price-summary">
       {/* Price Section */}
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-2xl font-bold text-gray-900">৳{price}</span>
-        {originalPrice && (
-          <span className="text-lg text-gray-500 line-through">৳{originalPrice}</span>
-        )}
-        {discount && (
-          <div className="c-Tukmu inline-block"><p className="card-price">{discount}</p></div>
-        )}
+        <span className="text-2xl font-bold text-gray-900">৳ 1000</span>
+          <span className="text-lg text-gray-500 line-through">৳ 1500</span>
+          <div className="c-Tukmu inline-block"><p className="card-price">৳ 500</p></div>
       </div>
 
       {/* CTA Button */}
@@ -27,7 +22,7 @@ const CTASection: React.FC<CTASectionProps> = ({
         onClick={onEnroll}
         className="w-full bg-green-600 hover:bg-green-700 border-b-4 border-green-800 text-white font-semibold py-3 px-4 rounded-lg transition-colors mb-4"
       >
-        {ctaText}
+        কোর্সটি কিনুন
       </button>
 
       {/* Course Details */}

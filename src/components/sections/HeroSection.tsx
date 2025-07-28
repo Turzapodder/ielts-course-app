@@ -1,54 +1,18 @@
+import React, { forwardRef } from "react";
 import Image from "next/image";
-import CourseSummary from './CourseSummary';
-import { CarouselItem } from '../ui/Carousel';
+import Carousel from '../ui/Carousel';
+import CTASection from "../ui/CTASection";
+import { CarouselItem } from '@/types/carousel';
+import { HeroSectionProps } from '@/types/heroSection';
 
-interface Instructor {
-  name: string;
-  designation: string;
-  image: string;
-}
+const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
+  ({ title, description, instructor, courseDetails, carouselItems }, ref) => { 
 
-interface HeroSectionProps {
-  title: string;
-  description: string;
-  instructor?: Instructor;
-}
+  const finalCarouselItems = carouselItems;
+  // Use courseDetails from props or fallback to default
+  const finalCourseDetails = courseDetails || [];
 
-export default function HeroSection({
-  title,
-  description,
-  instructor,
-}: HeroSectionProps) {
-  const carouselItems: CarouselItem[] = [
-    {
-      type: 'video',
-      src: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-      thumbnail: '/dasktop_banner.jpg',
-      alt: 'IELTS Course Preview Video'
-    },
-    {
-      type: 'image',
-      src: '/mobile_banner.jpg',
-      alt: 'Course Overview'
-    },
-    {
-      type: 'image',
-      src: '/bg-gradient.jpeg',
-      alt: 'Course Materials'
-    }
-  ];
 
-  const courseDetails = [
-    'কোর্স করেছেন ৩০০৬+ জন',
-    'সময় লাগবে ৫০ ঘন্টা',
-    '৫৪টি ভিডিও',
-    '১০টি রিভিশন এবং ১০টি নিউজলেটার মক টেস্ট',
-    '৩৮টি লেকচার শিট',
-    '২৫টি ভিডিও লেকচার',
-    '১টি ফ্রি হ্যান্ডনোট বই',
-    'ফেসবুক সাপোর্ট গ্রুপ',
-    'কোর্সের নোয়াল আজীবন'
-  ];
 
   const handleEnroll = () => {
     // Handle enrollment logic
@@ -56,9 +20,21 @@ export default function HeroSection({
   };
 
   return (
-    <section className=" hero-section text-white min-h-[300px] md:min-h-[300px]">
-      <div className="container relative flex flex-col gap-4 md:flex-row md:gap-12 pb-6 md:py-10 min-h-[300px]">
-        <div className="order-1 flex flex-col justify-center flex-1 md:order-1  md:max-w-[calc(100%_-_348px)] lg:max-w-[calc(100%_-_448px)]">
+    <section ref={ref} className=" hero-section text-white min-h-[300px] md:min-h-[300px]">
+      <div className="container relative flex flex-col gap-4  md:gap-12 pb-6 md:py-10 min-h-[300px]">
+        {/* Mobile/Tablet Carousel - Only visible on small screens */}
+        <div className="order-1 lg:hidden w-full mb-4">
+          <div className="rounded-lg shadow-lg overflow-hidden bg-transparent text-gray-800 lg:bg-white">
+            <Carousel
+              items={finalCarouselItems || []}
+              showThumbnails={true}
+              aspectRatio="aspect-video"
+            />
+          </div>
+        </div>
+
+        {/* Course Title and Description */}
+        <div className="course-title-section order-2 md:order-1 flex flex-col justify-center  flex-1 md:max-w-[100%] lg:max-w-[calc(100%_-_448px)]">
           <h1 className="text-white mb-2 text-[21px] font-semibold  md:text-4xl">
             IELTS Course by Munzereen Shahid
           </h1>
@@ -93,20 +69,26 @@ export default function HeroSection({
             </div>
           </div>
         </div>
-        
-        {/* Course Summary Component */}
-        <div className="order-2 md:order-2 flex-shrink-0 w-full md:w-[348px] lg:w-[448px]  absolute right-0 md:top-[50px] md:absolute">
-          <CourseSummary
-            carouselItems={carouselItems}
-            price={3850}
-            originalPrice={5000}
-            discount="১১৫০ টাকা ছাড়"
-            ctaText="কোর্সটি কিনুন"
-            courseDetails={courseDetails}
-            onEnroll={handleEnroll}
-          />
+
+        {/* Desktop Carousel and Price Summary - Only visible on medium screens and up */}
+        <div className="hidden lg:block order-3 md:order-2 flex-shrink-0 w-full md:max-w-[330px] lg:max-w-[400px] absolute right-0 md:top-[50px]">
+          <div className="shadow-lg overflow-hidden bg-white text-gray-800">
+            <Carousel
+              items={finalCarouselItems}
+              showThumbnails={true}
+              aspectRatio="aspect-video"
+            />
+
+            <CTASection
+              courseDetails={finalCourseDetails}
+            />
+          </div>
         </div>
       </div>
     </section>
   );
-}
+});
+
+HeroSection.displayName = 'HeroSection';
+
+export default HeroSection;

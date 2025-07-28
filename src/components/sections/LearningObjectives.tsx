@@ -1,13 +1,4 @@
-interface Section {
-  type: string;
-  title: string;
-  content: string;
-  items?: string[];
-}
-
-interface LearningObjectivesProps {
-  sections: Section[];
-}
+import { Section, LearningObjectivesProps } from '@/types/learningObjectives';
 
 export default function LearningObjectives({ sections }: LearningObjectivesProps) {
   const objectivesSection = sections?.find(section => section.type === 'pointers' || section.type === 'objectives');

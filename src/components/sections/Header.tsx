@@ -11,7 +11,7 @@ export default function Header() {
   return (
     <header className=" sticky top-0 z-50 border-b bg-white md:h-[65px]">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-3 md:px-7">
-        <div className="flex gap-2"><button className="lg:hidden ml-2" type="button" name="menu-toggle"><svg stroke="#000000" fill="#000000" stroke-width="0" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M21 17.9995V19.9995H3V17.9995H21ZM17.4038 3.90332L22 8.49951L17.4038 13.0957L15.9896 11.6815L19.1716 8.49951L15.9896 5.31753L17.4038 3.90332ZM12 10.9995V12.9995H3V10.9995H12ZM12 3.99951V5.99951H3V3.99951H12Z"></path></svg><span className="sr-only">menu</span></button>
+        <div className="flex gap-2"><button className="lg:hidden ml-2" type="button" name="menu-toggle"><svg stroke="#000000" fill="#000000" strokeWidth="0" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M21 17.9995V19.9995H3V17.9995H21ZM17.4038 3.90332L22 8.49951L17.4038 13.0957L15.9896 11.6815L19.1716 8.49951L15.9896 5.31753L17.4038 3.90332ZM12 10.9995V12.9995H3V10.9995H12ZM12 3.99951V5.99951H3V3.99951H12Z"></path></svg><span className="sr-only">menu</span></button>
         <div className="md:hidden"><Link href="/" className="flex items-center">
             <Image
               src="/10mslogo-svg.svg"
@@ -50,7 +50,8 @@ export default function Header() {
                   placeholder="স্কিলস কোর্স, কিংবা স্কুল প্রোগ্রাম সার্চ করুন..."
                   className="w-full flex-1 placeholder:text-sm placeholder:font-normal placeholder:leading-5 placeholder:text-[#7C818A] focus:outline-none"
                   name="Search"
-                  value="" />
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  value={searchQuery} />
               </div>
             </div>
           </div>

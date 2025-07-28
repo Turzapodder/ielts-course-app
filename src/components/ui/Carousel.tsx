@@ -3,19 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-export interface CarouselItem {
-  type: "video" | "image";
-  src: string;
-  thumbnail?: string;
-  alt: string;
-}
-
-interface CarouselProps {
-  items: CarouselItem[];
-  className?: string;
-  showThumbnails?: boolean;
-  aspectRatio?: string;
-}
+import { CarouselItem, CarouselProps } from '@/types/carousel';
 
 const Carousel: React.FC<CarouselProps> = ({
   items,
@@ -46,7 +34,7 @@ const Carousel: React.FC<CarouselProps> = ({
   if (!items || items.length === 0) {
     return (
       <div
-        className={`${aspectRatio} bg-gray-100 flex items-center justify-center ${className}`}
+        className={`${aspectRatio} bg-transparent lg:bg-gray-100 flex items-center justify-center ${className}`}
       >
         <span className="text-gray-500">No content available</span>
       </div>
@@ -58,7 +46,7 @@ const Carousel: React.FC<CarouselProps> = ({
       {/* Main Carousel */}
       <div className="relative">
         {/* Main Content */}
-        <div className={`relative ${aspectRatio} bg-gray-100 p-1`}>
+        <div className={`relative ${aspectRatio}  bg-transparent lg:bg-gray-100 p-1`}>
           {currentItem?.type === "video" ? (
             <div className="relative w-full h-full">
               {!isPlaying ? (
@@ -152,14 +140,14 @@ const Carousel: React.FC<CarouselProps> = ({
 
       {/* Thumbnail Strip */}
       {showThumbnails && items.length > 1 && (
-        <div className="flex gap-2 p-3 bg-gray-50 overflow-x-auto">
+        <div className="flex gap-2 p-3  bg-transparent lg:bg-gray-100 overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {items.map((item, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`flex-shrink-0 w-16 h-12 rounded overflow-hidden border-2 transition-colors ${
+              className={`flex-shrink-0 w-16 h-12 rounded overflow-hidden border-2 transition-colors cursor-pointer ${
                 index === currentIndex
-                  ? "border-green-500"
+                  ? "!border-green-500"
                   : "border-gray-200"
               }`}
               aria-label={`View ${item.alt}`}
