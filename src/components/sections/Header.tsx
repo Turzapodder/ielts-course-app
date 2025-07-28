@@ -1,12 +1,15 @@
 "use client"
 import Link from 'next/link';
 import Image from 'next/image';
+import getConfig from 'next/config';
 import { useState } from 'react';
 import Dropdown from '../ui/Dropdown';
 import { navigationDropdownData, navigationItems } from '@/utils/dropdownData';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Header() {
+  const { publicRuntimeConfig } = getConfig();
+  const basePath = publicRuntimeConfig.basePath || '';
   const [searchQuery, setSearchQuery] = useState('');
   const { language, toggleLanguage } = useLanguage();
 
@@ -16,7 +19,7 @@ export default function Header() {
         <div className="flex gap-2"><button className="lg:hidden ml-2" type="button" name="menu-toggle"><svg stroke="#000000" fill="#000000" strokeWidth="0" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M21 17.9995V19.9995H3V17.9995H21ZM17.4038 3.90332L22 8.49951L17.4038 13.0957L15.9896 11.6815L19.1716 8.49951L15.9896 5.31753L17.4038 3.90332ZM12 10.9995V12.9995H3V10.9995H12ZM12 3.99951V5.99951H3V3.99951H12Z"></path></svg><span className="sr-only">menu</span></button>
         <div className="md:hidden"><Link href="/" className="flex items-center">
             <Image
-              src="/10mslogo-svg.svg"
+              src={`${basePath}/10mslogo-svg.svg`}
               alt="10 Minute School"
               width={100}
               height={30}
@@ -27,7 +30,7 @@ export default function Header() {
         <div className="hidden md:block flex-shrink-0 h-[27px] w-[100px]">
           <Link href="/" className="flex items-center">
             <Image
-              src="/10mslogo-svg.svg"
+              src={`${basePath}/10mslogo-svg.svg`}
               alt="10 Minute School"
               width={100}
               height={30}
@@ -41,7 +44,7 @@ export default function Header() {
             <div className="relative flex w-full flex-col items-center bg-white  z-50">
               <div className="  shadow-0 rounded-b-[23px] flex w-full items-center gap-2 rounded-t-[23px] border-0 px-[12px] py-2 md:border">
                 <Image
-                  src="/search-icon.svg"
+                  src={`${basePath}/search-icon.svg`}
                   alt="Search"
                   width={27}
                   height={24}
@@ -103,7 +106,7 @@ export default function Header() {
                 className=" cursor-pointer items-center gap-1 rounded border px-2 py-[2px] hover:bg-slate-50 md:flex  text-[#4B5563] border-[#dbe1eb]"
               >
                 <Image
-                  src="/lang-bn.svg"
+                  src={`${basePath}/lang-bn.svg`}
                   alt="Language Toggle"
                   width={15}
                   height={14}
@@ -115,7 +118,7 @@ export default function Header() {
             {/* Helpline */}
             <a className="items-center gap-1 text-green-600 hover:text-green-700 md:flex" href="tel:16910" >
               <Image
-                src="/helpline-icon.svg"
+                src={`${basePath}/helpline-icon.svg`}
                 alt="Language Toggle"
                 width={15}
                 height={14}

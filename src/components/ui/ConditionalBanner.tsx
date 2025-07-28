@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Image from 'next/image';
+import getConfig from 'next/config';
 import { ConditionalBannerProps } from '@/utils/types';
 
 const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
@@ -11,8 +12,11 @@ const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
   alt,
   className = ''
 }) => {
+  const { publicRuntimeConfig } = getConfig();
+  const basePath = publicRuntimeConfig.basePath || '';
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -31,7 +35,7 @@ const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
     const search = current.toString();
     const query = search ? `?${search}` : '';
     
-    router.push(`${window.location.pathname}${query}`, { scroll: false });
+    router.push(`${pathname}${query}`, { scroll: false });
   };
 
   if (!isVisible) {
@@ -66,7 +70,7 @@ const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
         {/* Desktop Image */}
       <div className="hidden md:block w-auto">
         <Image
-          src={desktopImage}
+          src={`${basePath}${desktopImage}`}
           alt={alt}
           width={1800}
           height={400}
@@ -78,7 +82,7 @@ const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
       {/* Mobile Image */}
       <div className="block md:hidden w-full">
         <Image
-          src={mobileImage}
+          src={`${basePath}${mobileImage}`}
           alt={alt}
           width={768}
           height={300}
