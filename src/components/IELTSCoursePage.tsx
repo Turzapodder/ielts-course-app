@@ -139,8 +139,8 @@ export default function IELTSCoursePage() {
       },
       {
         root: null, // viewport
-        rootMargin: "0px",
-        threshold: 0, // Trigger when any part of the target is visible
+        rootMargin: "-100px 0px -100px 0px", // Trigger when hero section is mostly out of view
+        threshold: [0, 0.1, 0.5, 1], // Multiple thresholds for better detection
       }
     );
 
@@ -154,7 +154,7 @@ export default function IELTSCoursePage() {
         observer.unobserve(heroSectionRef.current);
       }
     };
-  }, []);
+  }, [data]); // Add data dependency to re-run when data loads
 
 
   const handleEnroll = () => {
@@ -274,7 +274,6 @@ export default function IELTSCoursePage() {
              <div className="bg-white shadow-2xl rounded-lg border border-gray-200 max-w-[350px]">
                <CTASection
                  courseDetails={courseDetails}
-                 onEnroll={handleEnroll}
                />
              </div>
            </div>

@@ -12,13 +12,6 @@ const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
   // Use courseDetails from props or fallback to default
   const finalCourseDetails = courseDetails || [];
 
-
-
-  const handleEnroll = () => {
-    // Handle enrollment logic
-    console.log('Enrolling in course...');
-  };
-
   return (
     <section ref={ref} className=" hero-section text-white min-h-[300px] md:min-h-[300px]">
       <div className="container relative flex flex-col gap-4  md:gap-12 pb-6 md:py-10 min-h-[300px]">
@@ -36,7 +29,7 @@ const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
         {/* Course Title and Description */}
         <div className="course-title-section order-2 md:order-1 flex flex-col justify-center  flex-1 md:max-w-[100%] lg:max-w-[calc(100%_-_448px)]">
           <h1 className="text-white mb-2 text-[21px] font-semibold  md:text-4xl">
-            IELTS Course by Munzereen Shahid
+            {title}
           </h1>
           <div className="mb-2">
             <button className="flex flex-row flex-wrap gap-2 text-white">
@@ -59,10 +52,7 @@ const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
               <div>
                 <p className="tenms__paragraph" dir="ltr">
                   <span className="whitespace-pre-wrap text-[#A3A3A3]">
-                    Academic IELTS এবং General Training IELTS- এর কমপ্লিট
-                    প্রিপারেশন নিন একটি কোর্সেই! দেশসেরা IELTS Instructor এর
-                    গাইডলাইনে আপনার কাঙ্ক্ষিত ব্যান্ড স্কোরটি অর্জন করতে আজই
-                    জয়েন করুন আমাদের IELTS Course-এ।{" "}
+                    {description}
                   </span>
                 </p>
               </div>
@@ -74,7 +64,7 @@ const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
         <div className="hidden lg:block order-3 md:order-2 flex-shrink-0 w-full md:max-w-[330px] lg:max-w-[400px] absolute right-0 md:top-[50px]">
           <div className="shadow-lg overflow-hidden bg-white text-gray-800">
             <Carousel
-              items={finalCarouselItems}
+              items={finalCarouselItems || []}
               showThumbnails={true}
               aspectRatio="aspect-video"
             />
