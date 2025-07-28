@@ -71,7 +71,6 @@ const CourseExclusiveFeatures: React.FC<CourseExclusiveFeaturesProps> = ({
   features,
   className = ""
 }) => {
-  console.log('ExclusiveFeature', features);
   return (
     <div className={className}>
       <div id="feature_explanations">

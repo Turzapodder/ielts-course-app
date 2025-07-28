@@ -294,11 +294,9 @@ export const courseApi = createApi({
   endpoints: (builder) => ({
     getCourseData: builder.query<CourseData, { courseSlug: string; language?: string }>({
       queryFn: async ({ courseSlug, language = 'en' }) => {
-        console.log('API Call - courseSlug:', courseSlug, 'language:', language);
         try {
           // Use the new localized endpoint with language parameter
           const apiUrl = `https://api.10minuteschool.com/d.iscovery-service/api/v1/products/${courseSlug}?lang=${language}`;
-          console.log('Fetching from:', apiUrl);
           const response = await fetch(
             apiUrl,
             {

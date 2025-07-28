@@ -11,7 +11,6 @@ const GroupJoinEngagement: React.FC<GroupJoinEngagementProps> = ({
       window.open(data.cta.clicked_url, '_blank');
     }
   };
-  console.log(data)
 
   // Background style base;
   return (
