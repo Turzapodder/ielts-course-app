@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production';
 const nextConfig = {
-  output: 'standalone',
+  output: 'export',
+  trailingSlash: true,
+  basePath: isProd ? '/ielts-course-app' : '',
+  assetPrefix: isProd ? '/ielts-course-app/' : '',
   images: {
     domains: ['api.10minuteschool.com', 'cdn.10minuteschool.com'],
     remotePatterns: [
