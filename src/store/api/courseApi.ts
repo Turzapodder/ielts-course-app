@@ -95,8 +95,7 @@ interface Offer {
   template: string;
   text: string;
 }
-
-interface GroupJoinEngagement {
+ interface GroupJoinEngagement {
   background: {
     image: string;
     primary_color: string;

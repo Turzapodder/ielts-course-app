@@ -1,4 +1,5 @@
 import React, { RefObject } from 'react';
+import type { GroupJoinEngagement } from '@/store/api/courseApi';
 
 // ============================================================================
 // ACCORDION TYPES
@@ -184,9 +185,11 @@ export interface GroupJoinEngagementData {
 }
 
 export interface GroupJoinEngagementProps {
-  data?: GroupJoinEngagementData;
+  data?: GroupJoinEngagement;
   className?: string;
 }
+
+
 
 // ============================================================================
 // HERO SECTION TYPES

@@ -90,22 +90,7 @@ export default function IELTSCoursePage() {
   }));
 
   // Transform API group join engagement to component format
-  const groupJoinEngagementData: GroupJoinEngagementData[] = apiGroupJoinEngagement.map((item) => ({
-    id: item.id,
-    backgroundImageUrl: item.background.image,
-    backgroundColor: `linear-gradient(135deg, ${item.background.primary_color} 0%, ${item.background.secondary_color} 100%)`,
-    iconUrl: item.top_left_icon_img,
-    title: item.title,
-    description: item.description,
-    buttonText: item.cta.text,
-    thumbnailUrl: item.thumbnail,
-    variant: "default",
-    onButtonClick: () => {
-      if (item.cta.clicked_url) {
-        window.open(item.cta.clicked_url, '_blank');
-      }
-    },
-  }));
+  const groupJoinEngagementData = apiGroupJoinEngagement;
 
   // Transform API feature explanations to component format
   const exclusiveFeatures: ExclusiveFeature[] = apiFeatureExplanations.map((featureExplanation) => ({

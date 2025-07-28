@@ -17,7 +17,7 @@ const CTASection: React.FC<CTASectionProps> = ({
       {/* CTA Button */}
       <button
         onClick={() => console.log('Enroll button clicked')}
-        className="w-full bg-green-600 hover:bg-green-700 border-b-4 border-green-800 text-white font-semibold py-3 px-4 rounded-lg transition-colors mb-4"
+        className="w-full bg-green-600 hover:bg-green-700 border-b-4 border-green-800 text-white font-semibold py-3 px-4 rounded-lg transition-colors mb-4 cursor-pointer"
       >
         কোর্সটি কিনুন
       </button>

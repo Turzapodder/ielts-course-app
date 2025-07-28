@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import LoadingSpinner from "./ui/LoadingSpinner";
 import LoadingSkeleton from "./ui/LoadingSkeleton";
 import ErrorMessage from "./ui/ErrorMessage";
-import { Testimonial, LearningOutcome, CourseFeature, GroupJoinEngagementData, ExclusiveFeature, CarouselItem } from '@/utils/types';
+import { Testimonial, LearningOutcome, CourseFeature, ExclusiveFeature, CarouselItem } from '@/utils/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 // Dynamic imports for components
@@ -115,18 +115,8 @@ export default function IELTSCoursePageClient() {
   }));
    
 
-  // Transform API group join engagement data
-  const groupJoinEngagementData: GroupJoinEngagementData[] = apiGroupJoinEngagement.map((engagement) => ({
-    id: engagement.id,
-    title: engagement.title,
-    description: engagement.description,
-    thumbnailUrl: engagement.thumbnail, // Changed from thumbnail to thumbnailUrl to match type
-    background: engagement.background,
-    cta: engagement.cta,
-    titleColor: engagement.title_color,
-    descriptionColor: engagement.description_color,
-    topLeftIconImg: engagement.top_left_icon_img,
-  }));
+  // Use API group join engagement data directly
+  const groupJoinEngagementData = apiGroupJoinEngagement;
    
 
   // Transform API feature explanations to exclusive features
@@ -276,7 +266,7 @@ export default function IELTSCoursePageClient() {
           <section className="hidden lg:block w-full lg:max-w-[400px] order-1 lg:order-2 sticky top-8 space-y-6">
             {/* CTA Section - Shows when hero CTA is out of view */}
             {showSidebarCTA && (
-              <div className="bg-white shadow-lg rounded-lg border border-gray-200 sticky top-[112px]">
+              <div ref={floatingSectionRef} className="bg-white shadow-lg rounded-lg border border-gray-200 sticky top-[112px] z-10">
                 <CTASection
                   courseDetails={courseDetails}
                 />
