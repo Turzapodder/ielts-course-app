@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --base-path: '/ielts-course-app';
 }
 
 @theme inline {
@@ -16,6 +17,7 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --base-path: '/ielts-course-app';
   }
 }
 *, :after, :before {
@@ -37,7 +39,7 @@ body {
     width: 100%;
 }
 .hero-section{
-  background-image: url("https://cdn.10minuteschool.com/images/ui_%281%29_1716445506383.jpeg");
+   background-image: url('var(--base-path)/bg-drop.jpeg');
   background-size: cover;
   background-position: center;
 }

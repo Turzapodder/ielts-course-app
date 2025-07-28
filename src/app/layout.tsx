@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import React from 'react';
 import "./globals.css";
 import ReduxProvider from "@/components/providers/ReduxProvider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -39,6 +40,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${inter.variable} antialiased`}
+        style={{ '--base-path': process.env.NEXT_PUBLIC_BASE_PATH || '' } as React.CSSProperties}
       >
         <ReduxProvider>
           <LanguageProvider>
