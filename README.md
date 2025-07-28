@@ -1,106 +1,88 @@
-# IELTS Course App
+# IELTS Course Application
 
-A modern, responsive web application for IELTS course management built with Next.js, TypeScript, and Tailwind CSS.
+This is a Next.js application designed to provide an interactive platform for IELTS course content. It leverages Next.js's server and client components for optimized performance and user experience.
 
 ## Features
 
-- 🎯 Dynamic course content management
-- 📱 Responsive design for all devices
-- 🎨 Modern UI with Tailwind CSS
-- 🔄 Real-time data fetching with Redux Toolkit Query
-- 📊 Interactive components and carousels
-- 🎓 Course enrollment and CTA sections
+- **Dynamic Content Display**: Utilizes Next.js server components for initial page rendering and client components for interactive elements.
+- **Conditional Banners**: Displays banners based on URL parameters, with a dismissible option.
+- **Responsive Design**: Optimized for various screen sizes, including desktop and mobile.
+- **Image Handling**: Configured to correctly display local images in development and production environments, including GitHub Pages deployments.
+- **API Integration**: Integrates with a course API for fetching and displaying course-related data.
 
-## Getting Started
+## Installation
 
-### Prerequisites
+To set up the project locally, follow these steps:
 
-- Node.js 18+ 
-- npm or yarn
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/your-username/ielts-course-app.git
+    cd ielts-course-app
+    ```
 
-### Installation
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/ielts-course-app.git
-cd ielts-course-app
-```
+## Usage
 
-2. Install dependencies:
-```bash
-npm install
-```
+### Development Server
 
-3. Run the development server:
+To run the application in development mode:
+
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Deployment to GitHub Pages
+### Building for Production
 
-### Automatic Deployment (Recommended)
-
-This project is configured with GitHub Actions for automatic deployment:
-
-1. **Update the repository URL** in `package.json`:
-   ```json
-   "homepage": "https://yourusername.github.io/ielts-course-app"
-   ```
-
-2. **Update the basePath** in `next.config.js` if your repository name is different:
-   ```javascript
-   basePath: '/your-repo-name',
-   assetPrefix: '/your-repo-name/',
-   ```
-
-3. **Push to main branch** - GitHub Actions will automatically build and deploy
-
-4. **Enable GitHub Pages** in your repository settings:
-   - Go to Settings > Pages
-   - Source: Deploy from a branch
-   - Branch: gh-pages
-   - Folder: / (root)
-
-### Manual Deployment
-
-Alternatively, you can deploy manually:
+To build the application for production:
 
 ```bash
-# Build and deploy
-npm run deploy
+npm run build
 ```
+
+This command creates an optimized production build in the `.next` directory.
+
+### Running Production Build
+
+To start the production server:
+
+```bash
+npm run start
+```
+
+## Deployment
+
+This application is configured for static export, making it suitable for deployment on platforms like GitHub Pages.
+
+### GitHub Pages Deployment
+
+1.  Ensure `next.config.js` has `output: 'export'`, `trailingSlash: true`, and `basePath` configured for your repository name (e.g., `/ielts-course-app`).
+2.  The `publicRuntimeConfig` in `next.config.js` exposes `basePath` to client-side components.
+3.  Images are referenced with the `basePath` prepended to their `src` attributes in components like `ConditionalBanner.tsx`, `Header.tsx`, and `HeroSection.tsx`.
+4.  The `ConditionalBanner`'s close button navigation uses `usePathname()` to correctly handle the `basePath`.
 
 ## Project Structure
 
-```
-src/
-├── app/                 # Next.js app directory
-├── components/          # React components
-│   ├── sections/        # Page sections
-│   └── ui/             # Reusable UI components
-├── store/              # Redux store and API
-├── types/              # TypeScript type definitions
-└── utils/              # Utility functions
-```
+-   `src/app`: Next.js App Router entry points.
+-   `src/components`: Reusable UI components, including `ui` for generic elements and `sections` for page sections.
+-   `src/contexts`: React Context API for global state management (e.g., `LanguageContext`).
+-   `src/store`: Redux Toolkit store for state management and API integration.
+-   `src/utils`: Utility functions and type definitions.
+-   `public`: Static assets like images and fonts.
 
-## Technologies Used
+## Recent Fixes and Improvements
 
-- **Next.js 15** - React framework
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **Redux Toolkit Query** - Data fetching
-- **Radix UI** - Accessible components
-- **Lucide React** - Icons
+During recent development, the following key issues were addressed:
 
-## Contributing
+-   **Next.js Build Error (`useSearchParams`)**: Resolved a build error related to `useSearchParams()` not being wrapped in a Suspense boundary. The `ConditionalBanner` component, which uses this hook, was wrapped in a `Suspense` boundary within `src/components/IELTSCoursePageServer.tsx`.
+-   **Local Images Not Displaying on GitHub Pages**: Fixed by:
+    -   Configuring `next.config.js` to expose `basePath` via `publicRuntimeConfig`.
+    -   Updating `src/components/ui/ConditionalBanner.tsx`, `src/components/sections/Header.tsx`, and `src/components/sections/HeroSection.tsx` to prepend the `basePath` to image `src` attributes.
+-   **Conditional Banner 404 on Close Button**: Addressed a 404 error occurring when the conditional banner's close button was clicked on GitHub Pages. This was resolved by changing the URL construction in `src/components/ui/ConditionalBanner.tsx` to use `usePathname()` instead of `window.location.pathname` for correct `basePath` handling during navigation.
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
+These changes ensure the application builds successfully and functions correctly when deployed to GitHub Pages, with all images and navigation working as expected.
