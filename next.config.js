@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === 'production';
 const nextConfig = {
-  publicRuntimeConfig: {
-    basePath: isProd ? '/ielts-course-app' : '',
-  },
   output: 'export',
   trailingSlash: true,
   basePath: isProd ? '/ielts-course-app' : '',
   assetPrefix: isProd ? '/ielts-course-app/' : '',
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isProd ? '/ielts-course-app' : '',
+  },
   images: {
     unoptimized: true,
     domains: ['api.10minuteschool.com', 'cdn.10minuteschool.com'],

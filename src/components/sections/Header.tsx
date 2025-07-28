@@ -1,15 +1,14 @@
 "use client"
 import Link from 'next/link';
 import Image from 'next/image';
-import getConfig from 'next/config';
+
 import { useState } from 'react';
 import Dropdown from '../ui/Dropdown';
 import { navigationDropdownData, navigationItems } from '@/utils/dropdownData';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Header() {
-  const { publicRuntimeConfig } = getConfig();
-  const basePath = publicRuntimeConfig.basePath || '';
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   const [searchQuery, setSearchQuery] = useState('');
   const { language, toggleLanguage } = useLanguage();
 

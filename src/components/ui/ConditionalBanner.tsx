@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Image from 'next/image';
-import getConfig from 'next/config';
+
 import { ConditionalBannerProps } from '@/utils/types';
 
 const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
@@ -12,8 +12,7 @@ const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
   alt,
   className = ''
 }) => {
-  const { publicRuntimeConfig } = getConfig();
-  const basePath = publicRuntimeConfig.basePath || '';
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();

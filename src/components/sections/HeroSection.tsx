@@ -1,7 +1,7 @@
 // components/sections/HeroSection.tsx
 import React, { forwardRef } from "react"; // Keep forwardRef for the root section
 import Image from "next/image";
-import getConfig from 'next/config';
+
 import Carousel from '../ui/Carousel';
 import CTASection from "../ui/CTASection";
 
@@ -10,8 +10,7 @@ import { HeroSectionProps } from '@/utils/types';
 const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
   // Accept floatingSectionRef as a prop
   ({ title, description, courseDetails, carouselItems, floatingSectionRef }, ref) => {
-    const { publicRuntimeConfig } = getConfig();
-    const basePath = publicRuntimeConfig.basePath || '';
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
     const finalCarouselItems = carouselItems;
     const finalCourseDetails = courseDetails || [];
 
