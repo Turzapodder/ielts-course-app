@@ -208,7 +208,7 @@ export interface HeroSectionProps {
   instructor?: Instructor;
   courseDetails?: string[];
   carouselItems?: CarouselItem[];
-  floatingSectionRef?: RefObject<HTMLDivElement>;
+  floatingSectionRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 // ============================================================================

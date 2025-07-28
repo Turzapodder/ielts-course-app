@@ -167,7 +167,6 @@ export default function IELTSCoursePage() {
           className="bg-black"
         />
         <HeroSection
-         ref={heroSectionRef}
           title={data?.title || ''}
           description={data?.description || ''}
           courseDetails={courseDetails}

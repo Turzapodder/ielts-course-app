@@ -19,12 +19,14 @@ export default function IELTSCoursePageServer() {
       
       <main>
         {/* Conditional Banner - Server rendered */}
-        <ConditionalBanner
-          desktopImage="/dasktop_banner.jpg"
-          mobileImage="/mobile_banner.jpg"
-          alt="IELTS Course Banner"
-          className="bg-black"
-        />
+        <Suspense fallback={<div className="h-32 bg-gray-200 animate-pulse" />}>
+          <ConditionalBanner
+            desktopImage="/dasktop_banner.jpg"
+            mobileImage="/mobile_banner.jpg"
+            alt="IELTS Course Banner"
+            className="bg-black"
+          />
+        </Suspense>
         
         {/* Client component with all dynamic functionality */}
         <Suspense fallback={<LoadingSpinner />}>

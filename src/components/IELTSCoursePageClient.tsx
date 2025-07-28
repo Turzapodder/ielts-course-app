@@ -1,3 +1,4 @@
+// IELTSCoursePageClient.tsx
 "use client";
 
 import { useRef, useState, useEffect } from "react";
@@ -51,7 +52,6 @@ const CTASection = dynamic(() => import('./ui/CTASection'), {
 export default function IELTSCoursePageClient() {
   const { language } = useLanguage();
   const { data, isLoading, error } = useGetCourseDataQuery({ courseSlug: 'ielts-course', language });
-  const heroSectionRef = useRef<HTMLElement>(null);
   const floatingSectionRef = useRef<HTMLDivElement>(null);
   const [showSidebarCTA, setShowSidebarCTA] = useState(false);
 
@@ -113,11 +113,11 @@ export default function IELTSCoursePageClient() {
     iconUrl: feature.icon,
     iconAlt: feature.title
   }));
-   
+    
 
   // Use API group join engagement data directly
   const groupJoinEngagementData = apiGroupJoinEngagement;
-   
+    
 
   // Transform API feature explanations to exclusive features
   const exclusiveFeatures: ExclusiveFeature[] = apiFeatureExplanations.map((featureExplanation) => ({
@@ -182,12 +182,11 @@ export default function IELTSCoursePageClient() {
   return (
     <>
       <HeroSection
-        ref={heroSectionRef}
         title={data?.title || ''}
         description={data?.description || ''}
         courseDetails={courseDetails}
         carouselItems={carouselItems}
-        floatingSectionRef={floatingSectionRef as React.RefObject<HTMLDivElement>}
+        floatingSectionRef={floatingSectionRef}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Content and Sidebar Container */}
@@ -266,7 +265,7 @@ export default function IELTSCoursePageClient() {
           <section className="hidden lg:block w-full lg:max-w-[400px] order-1 lg:order-2 sticky top-8 space-y-6">
             {/* CTA Section - Shows when hero CTA is out of view */}
             {showSidebarCTA && (
-              <div ref={floatingSectionRef} className="bg-white shadow-lg rounded-lg border border-gray-200 sticky top-[112px] z-10">
+              <div className="bg-white shadow-lg rounded-lg border border-gray-200 sticky top-[112px] z-10">
                 <CTASection
                   courseDetails={courseDetails}
                 />
