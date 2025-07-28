@@ -15,7 +15,7 @@ const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
     const finalCourseDetails = courseDetails || [];
 
     return (
-      <section ref={ref} className="hero-section text-white min-h-[300px] md:min-h-[300px] bg-[url('https://cdn.10minuteschool.com/images/ui_%281%29_1716445506383.jpeg')] bg-cover bg-center">
+      <section ref={ref} className="hero-section text-white min-h-[300px] md:min-h-[300px] bg-[image:var(--hero-background-image)] bg-cover bg-center">
         <div className="container relative flex flex-col gap-4 md:gap-12 pb-6 md:py-10 min-h-[300px]">
           {/* Mobile/Tablet Carousel - Only visible on small screens */}
           <div className="order-1 lg:hidden w-full mb-4">
