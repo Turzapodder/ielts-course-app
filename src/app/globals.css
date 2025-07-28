@@ -3,7 +3,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-   --hero-background-image: url("https://cdn.10minuteschool.com/images/ui_(1)_1716445506383.jpeg");
 }
 
 @theme inline {
@@ -38,6 +37,7 @@ body {
     width: 100%;
 }
 .hero-section{
+  background-image: url("https://cdn.10minuteschool.com/images/ui_%281%29_1716445506383.jpeg");
   background-size: cover;
   background-position: center;
 }

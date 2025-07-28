@@ -50,7 +50,7 @@ const FeatureItem: React.FC<{ feature: ExclusiveFeature }> = ({ feature }) => {
       
       {/* Image Section */}
       <div className="w-full md:w-auto">
-        <div className="mb-4 mx-auto max-w-[350px] opacity-0 transition-opacity duration-300 ease-in-out animate-fade-in opacity-100">
+        <div className=" m-0 md:mb-4 md:mx-auto max-w-[350px] opacity-0 transition-opacity duration-300 ease-in-out animate-fade-in opacity-100">
           <Image
             src={feature.imageUrl}
             alt={feature.imageAlt}
