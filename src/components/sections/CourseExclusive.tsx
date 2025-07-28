@@ -1,7 +1,8 @@
+"use client";
+
 import React from 'react';
 import Image from 'next/image';
-import { FeaturePoint, ExclusiveFeature, CourseExclusiveFeaturesProps } from '@/types/courseExclusive';
-import { features } from 'process';
+import { ExclusiveFeature, CourseExclusiveFeaturesProps } from '@/utils/types';
 
 // Check icon component
 

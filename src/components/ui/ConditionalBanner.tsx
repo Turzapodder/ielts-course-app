@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { ConditionalBannerProps } from '@/types/conditionalBanner';
+import { ConditionalBannerProps } from '@/utils/types';
 
 const ConditionalBanner: React.FC<ConditionalBannerProps> = ({
   desktopImage,

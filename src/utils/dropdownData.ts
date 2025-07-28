@@ -1,5 +1,5 @@
 import React from 'react';
-import { DropdownItem, NavDropdownData } from '@/types/dropdown';
+import { NavDropdownData } from '@/utils/types';
 
 // Icon components for better maintainability
 const createIcon = (color: string, path: string): React.ReactElement => {

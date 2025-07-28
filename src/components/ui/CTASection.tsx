@@ -1,12 +1,9 @@
 import React from 'react';
-import { CTASectionProps } from '@/types/ctaSection';
+import { CTASectionProps } from '@/utils/types';
 
 const CTASection: React.FC<CTASectionProps> = ({
   courseDetails,
 }) => {
-  function onEnroll(event: any): void {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <div className="p-4 price-summary">
@@ -19,7 +16,7 @@ const CTASection: React.FC<CTASectionProps> = ({
 
       {/* CTA Button */}
       <button
-        onClick={onEnroll}
+        onClick={() => console.log('Enroll button clicked')}
         className="w-full bg-green-600 hover:bg-green-700 border-b-4 border-green-800 text-white font-semibold py-3 px-4 rounded-lg transition-colors mb-4"
       >
         কোর্সটি কিনুন

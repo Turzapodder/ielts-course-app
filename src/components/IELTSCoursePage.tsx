@@ -1,9 +1,10 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { FAQ, Instructor, Testimonial as APITestimonial, Checklist, Feature, GroupJoinEngagement as APIGroupJoinEngagement, FeatureExplanation, Pointer, AboutItem, useGetCourseDataQuery, getInstructors, getTestimonials, getFeatures, getGroupJoinEngagement, getFeatureExplanations, getPointers, getAboutInfo, getSectionName, getAllSectionNames } from "@/store/api/courseApi";
+import { FAQ, Checklist, useGetCourseDataQuery, getInstructors, getTestimonials, getFeatures, getGroupJoinEngagement, getPointers, getAboutInfo, getSectionName, getFeatureExplanations } from "@/store/api/courseApi";
 import Header from "./sections/Header";
 import HeroSection from "./sections/HeroSection";
+import { useLanguage } from '@/contexts/LanguageContext';
 
 import LoadingSpinner from "./ui/LoadingSpinner";
 import ErrorMessage from "./ui/ErrorMessage";
@@ -16,13 +17,7 @@ import CourseExclusiveFeatures from "./sections/CourseExclusive";
 import TestimonialSlider from "./ui/TestimonialSlider";
 import LearningOutcomes from "./sections/CourseOutcome";
 import UniversalAccordion from "./ui/Accordion";
-import { Testimonial } from '@/types/testimonial';
-import { LearningOutcome } from '@/types/courseOutcome';
-import { AccordionItemProps } from '@/types/accordion';
-import { CourseFeature } from '@/types/courseStructure';
-import { GroupJoinEngagementData } from '@/types/groupJoinEngagement';
-import { ExclusiveFeature } from '@/types/courseExclusive';
-import { CarouselItem } from '@/types/carousel';
+import { Testimonial, LearningOutcome, CourseFeature, GroupJoinEngagementData, ExclusiveFeature, CarouselItem } from '@/utils/types';
 import CTASection from "./ui/CTASection";
 
 
@@ -30,8 +25,10 @@ import CTASection from "./ui/CTASection";
 
 
 export default function IELTSCoursePage() {
-  const { data, isLoading, error } = useGetCourseDataQuery('ielts-course');
+  const { language } = useLanguage();
+  const { data, isLoading, error } = useGetCourseDataQuery({ courseSlug: 'ielts-course', language });
   const heroSectionRef = useRef<HTMLElement>(null);
+  const floatingSectionRef = useRef<HTMLDivElement>(null);
   const [showSidebarCTA, setShowSidebarCTA] = useState(false);
 
   const faqSection = data?.sections.find((section) => section.type === 'faq');
@@ -53,7 +50,6 @@ export default function IELTSCoursePage() {
   }));
 
   // Extract section names for component titles
-  const instructorSectionName = data ? getSectionName(data.sections, 'instructors') : 'কোর্স ইন্সট্রাক্টর';
   const featuresSectionName = data ? getSectionName(data.sections, 'features') : 'কোর্সটি যেভাবে সাজানো হয়েছে';
   const pointersSectionName = data ? getSectionName(data.sections, 'pointers') : 'What you will learn by doing the course';
   const aboutSectionName = data ? getSectionName(data.sections, 'about') : 'About Course';
@@ -134,33 +130,30 @@ export default function IELTSCoursePage() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // If HeroSection is NOT intersecting (i.e., scrolled out of view), show CTA
+        // If floating section is NOT intersecting (i.e., scrolled out of view), show CTA
         setShowSidebarCTA(!entry.isIntersecting);
       },
       {
         root: null, // viewport
-        rootMargin: "-100px 0px -100px 0px", // Trigger when hero section is mostly out of view
+        rootMargin: "-50px 0px -50px 0px", // Trigger when floating section is mostly out of view
         threshold: [0, 0.1, 0.5, 1], // Multiple thresholds for better detection
       }
     );
 
-    if (heroSectionRef.current) {
-      observer.observe(heroSectionRef.current);
+    if (floatingSectionRef.current) {
+      observer.observe(floatingSectionRef.current);
     }
 
     // Cleanup observer on component unmount
     return () => {
-      if (heroSectionRef.current) {
-        observer.unobserve(heroSectionRef.current);
+      if (floatingSectionRef.current) {
+        observer.unobserve(floatingSectionRef.current);
       }
     };
   }, [data]); // Add data dependency to re-run when data loads
 
 
-  const handleEnroll = () => {
-    // Handle enrollment logic
-    console.log("Enrolling in course...");
-  };
+
   
   // Extract course details from API checklist data
   const courseDetails = data?.checklist?.map((item: Checklist) => item.text) || [];
@@ -194,12 +187,20 @@ export default function IELTSCoursePage() {
           description={data?.description || ''}
           courseDetails={courseDetails}
           carouselItems={carouselItems}
+          floatingSectionRef={floatingSectionRef as React.RefObject<HTMLDivElement>}
         />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Main Content and Sidebar Container */}
           <div className="container flex flex-col gap-4 lg:flex-row lg:gap-12">
             {/* Main Content Column */}
             <section className="order-2 flex-1 lg:order-1 lg:max-w-[calc(100%_-_448px)] space-y-8">
+              {/* Mobile/Tablet CTA Section - Shows before instructor on smaller screens */}
+              <div className="lg:hidden bg-white shadow-lg rounded-lg border border-gray-200">
+                <CTASection
+                  courseDetails={courseDetails}
+                />
+              </div>
+              
               {instructors.length > 0 && (
                 <InstructorProfile
                   name={instructors[0].name}
@@ -213,7 +214,7 @@ export default function IELTSCoursePage() {
               )}
               <CourseFeatures title={featuresSectionName} features={courseFeatures} />
               {groupJoinEngagementData.length > 0 && (
-                <GroupJoinEngagement data={groupJoinEngagementData[0]} />
+                <GroupJoinEngagement data={groupJoinEngagementData[0]}  />
               )}
               <LearningOutcomes
                 title={pointersSectionName}
@@ -262,22 +263,18 @@ export default function IELTSCoursePage() {
             </section>
 
             {/* Sidebar Column */}
-            <section className="hidden w-full lg:max-w-[400px] order-1 lg:order-2 sticky top-8 space-y-6">
-              {/* Static sidebar content can go here */}
+            <section className="hidden lg:block w-full lg:max-w-[400px] order-1 lg:order-2 sticky top-8 space-y-6">
+              {/* CTA Section - Shows when hero CTA is out of view */}
+              {showSidebarCTA && (
+                <div className="bg-white shadow-lg rounded-lg border border-gray-200 sticky top-[112px]">
+                  <CTASection
+                    courseDetails={courseDetails}
+                  />
+                </div>
+              )}
             </section>
           </div>
         </div>
-        
-        {/* Sticky Left CTA Section - Shows when hero CTA is out of view */}
-         {showSidebarCTA && (
-           <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50 hidden lg:block">
-             <div className="bg-white shadow-2xl rounded-lg border border-gray-200 max-w-[350px]">
-               <CTASection
-                 courseDetails={courseDetails}
-               />
-             </div>
-           </div>
-         )}
       </main>
       <Footer />
     </div>

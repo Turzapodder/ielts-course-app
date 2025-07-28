@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Instructor, InstructorSectionProps } from '@/types/instructorSection';
+import { InstructorSectionProps } from '@/utils/types';
 
 export default function InstructorSection({ instructors }: InstructorSectionProps) {
   if (!instructors || instructors.length === 0) {

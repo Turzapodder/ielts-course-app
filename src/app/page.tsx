@@ -1,11 +1,6 @@
-import { Suspense } from 'react';
-import IELTSCoursePage from '@/components/IELTSCoursePage';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import IELTSCoursePageServer from '@/components/IELTSCoursePageServer';
 
+// Server component for better SSR performance
 export default function Home() {
-  return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <IELTSCoursePage />
-    </Suspense>
-  );
+  return <IELTSCoursePageServer />;
 }

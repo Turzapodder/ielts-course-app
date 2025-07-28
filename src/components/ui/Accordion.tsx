@@ -11,7 +11,7 @@ import {
 import { ChevronDown, ChevronUp } from "lucide-react";
 import React, { useState } from "react";
 
-import { AccordionItemProps, UniversalAccordionProps } from '@/types/accordion';
+import { UniversalAccordionProps } from '@/utils/types';
 
 const UniversalAccordion = ({
   type,
@@ -54,7 +54,13 @@ const UniversalAccordion = ({
             </Trigger>
           </Header>
           <Content className="overflow-hidden data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp">
-            <div className="p-4">{item.content}</div>
+            <div className="p-4">
+              {typeof item.content === 'string' ? (
+                <div dangerouslySetInnerHTML={{ __html: item.content }} />
+              ) : (
+                item.content
+              )}
+            </div>
           </Content>
         </Item>
       ))}

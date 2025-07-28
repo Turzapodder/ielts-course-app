@@ -1,12 +1,14 @@
+"use client"
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import Dropdown from '../ui/Dropdown';
-import { navigationItems, navigationDropdownData } from '@/utils/dropdownData';
+import { navigationDropdownData, navigationItems } from '@/utils/dropdownData';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [language, setLanguage] = useState('EN');
+  const { language, toggleLanguage } = useLanguage();
 
   return (
     <header className=" sticky top-0 z-50 border-b bg-white md:h-[65px]">
@@ -62,7 +64,7 @@ export default function Header() {
           <div className='flex items-center gap-2 lg:gap-4'>
           {navigationItems.map((navItem) => {
             if (navItem.hasDropdown) {
-              return (
+              return (  
                 <Dropdown
                   key={navItem.key}
                   items={navigationDropdownData[navItem.key] || []}
@@ -97,7 +99,7 @@ export default function Header() {
           <div className='flex items-center gap-3 rounded-md max-h-96 md:gap-6'>
             <div className="hidden md:flex items-center">
               <button
-                onClick={() => setLanguage(language === 'EN' ? 'BD' : 'EN')}
+                onClick={toggleLanguage}
                 className=" cursor-pointer items-center gap-1 rounded border px-2 py-[2px] hover:bg-slate-50 md:flex  text-[#4B5563] border-[#dbe1eb]"
               >
                 <Image
@@ -106,7 +108,7 @@ export default function Header() {
                   width={15}
                   height={14}
                 />
-                <span className='text-black'>{language}</span>
+                <span className='text-black'>{language === 'en' ? 'EN' : 'বাং'}</span>
               </button>
             </div>
 

@@ -1,4 +1,4 @@
-import { Section, LearningObjectivesProps } from '@/types/learningObjectives';
+import { LearningObjectivesProps } from '@/utils/types';
 
 export default function LearningObjectives({ sections }: LearningObjectivesProps) {
   const objectivesSection = sections?.find(section => section.type === 'pointers' || section.type === 'objectives');

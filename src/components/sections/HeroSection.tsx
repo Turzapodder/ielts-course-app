@@ -2,18 +2,18 @@ import React, { forwardRef } from "react";
 import Image from "next/image";
 import Carousel from '../ui/Carousel';
 import CTASection from "../ui/CTASection";
-import { CarouselItem } from '@/types/carousel';
-import { HeroSectionProps } from '@/types/heroSection';
+
+import { HeroSectionProps } from '@/utils/types';
 
 const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
-  ({ title, description, instructor, courseDetails, carouselItems }, ref) => { 
+  ({ title, description, courseDetails, carouselItems, floatingSectionRef }, ref) => { 
 
   const finalCarouselItems = carouselItems;
   // Use courseDetails from props or fallback to default
   const finalCourseDetails = courseDetails || [];
 
   return (
-    <section ref={ref} className=" hero-section text-white min-h-[300px] md:min-h-[300px]">
+    <section className=" hero-section text-white min-h-[300px] md:min-h-[300px]">
       <div className="container relative flex flex-col gap-4  md:gap-12 pb-6 md:py-10 min-h-[300px]">
         {/* Mobile/Tablet Carousel - Only visible on small screens */}
         <div className="order-1 lg:hidden w-full mb-4">
@@ -51,9 +51,10 @@ const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
             <div className="text-gray-400 overflow-hidden h-auto [mask-image:none] ">
               <div>
                 <p className="tenms__paragraph" dir="ltr">
-                  <span className="whitespace-pre-wrap text-[#A3A3A3]">
-                    {description}
-                  </span>
+                  <span 
+                    className="whitespace-pre-wrap text-[#A3A3A3]"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                  />
                 </p>
               </div>
             </div>
@@ -61,7 +62,7 @@ const HeroSection = forwardRef<HTMLElement, HeroSectionProps>(
         </div>
 
         {/* Desktop Carousel and Price Summary - Only visible on medium screens and up */}
-        <div className="hidden lg:block order-3 md:order-2 flex-shrink-0 w-full md:max-w-[330px] lg:max-w-[400px] absolute right-0 md:top-[50px]">
+        <div ref={floatingSectionRef} className=" flaoting-section hidden lg:block order-3 md:order-2 flex-shrink-0 w-full md:max-w-[330px] lg:max-w-[400px] absolute right-0 md:top-[50px]">
           <div className="shadow-lg overflow-hidden bg-white text-gray-800">
             <Carousel
               items={finalCarouselItems || []}

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { DropdownItem, DropdownProps } from '@/types/dropdown';
+import { DropdownProps } from '@/utils/types';
 
 export default function Dropdown({ items, trigger, className = '' }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);

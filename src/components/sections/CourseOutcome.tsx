@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Check } from 'lucide-react';
-import { LearningOutcome, LearningOutcomesProps } from '@/types/courseOutcome';
+import { LearningOutcomesProps } from '@/utils/types';
 
 // Main LearningOutcomes Component
 const LearningOutcomes: React.FC<LearningOutcomesProps> = ({

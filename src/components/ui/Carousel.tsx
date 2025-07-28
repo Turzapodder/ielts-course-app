@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 
-import { CarouselItem, CarouselProps } from '@/types/carousel';
+import { CarouselProps } from '@/utils/types';
 
 const Carousel: React.FC<CarouselProps> = ({
   items,
@@ -14,22 +14,32 @@ const Carousel: React.FC<CarouselProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const nextSlide = () => {
+  // Memoized navigation functions for better performance
+  const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % items.length);
     setIsPlaying(false);
-  };
+  }, [items.length]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
     setIsPlaying(false);
-  };
+  }, [items.length]);
 
-  const goToSlide = (index: number) => {
+  const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index);
     setIsPlaying(false);
-  };
+  }, []);
 
-  const currentItem = items[currentIndex];
+  // Memoized current item for performance
+  const currentItem = useMemo(() => items[currentIndex], [items, currentIndex]);
+
+  // Preload adjacent images for better UX
+  const preloadIndexes = useMemo(() => {
+    const prev = (currentIndex - 1 + items.length) % items.length;
+    const next = (currentIndex + 1) % items.length;
+    return [prev, next];
+  }, [currentIndex, items.length]);
+
 
   if (!items || items.length === 0) {
     return (
@@ -56,6 +66,10 @@ const Carousel: React.FC<CarouselProps> = ({
                     alt={currentItem.alt}
                     fill
                     className="object-cover"
+                    priority={currentIndex === 0} // Priority for first image
+                    loading={currentIndex === 0 ? "eager" : "lazy"}
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                   />
                   <button
                     onClick={() => setIsPlaying(true)}
@@ -89,8 +103,22 @@ const Carousel: React.FC<CarouselProps> = ({
               alt={currentItem?.alt || ""}
               fill
               className="object-cover"
+              priority={currentIndex === 0} // Priority for first image
+              loading={currentIndex === 0 ? "eager" : "lazy"}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
             />
           )}
+          
+          {/* Preload adjacent images for better UX */}
+          {preloadIndexes.map((index) => (
+            <link
+              key={`preload-${index}`}
+              rel="preload"
+              as="image"
+              href={items[index]?.src}
+            />
+          ))}
         </div>
 
         {/* Navigation Arrows */}
@@ -158,6 +186,9 @@ const Carousel: React.FC<CarouselProps> = ({
                 width={64}
                 height={48}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               />
             </button>
           ))}

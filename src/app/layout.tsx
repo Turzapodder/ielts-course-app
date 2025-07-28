@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/components/providers/ReduxProvider";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -11,6 +12,22 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Complete IELTS Course in Bangladesh - Munzereen Shahid [2025]",
   description: "Master IELTS with expert guidance from Munzereen Shahid. 50+ video lectures, mock tests, and comprehensive preparation for all four skills.",
+  other: {
+    'X-TENMS-SOURCE-PLATFORM': 'web',
+  },
+  openGraph: {
+    title: "Complete IELTS Course in Bangladesh - Munzereen Shahid [2025]",
+    description: "Master IELTS with expert guidance from Munzereen Shahid. 50+ video lectures, mock tests, and comprehensive preparation for all four skills.",
+    type: 'website',
+    locale: 'en_US',
+    alternateLocale: 'bn_BD',
+  },
+  alternates: {
+    languages: {
+      'en': '/en',
+      'bn': '/bn',
+    },
+  },
 };
 
 export default function RootLayout({
@@ -24,7 +41,9 @@ export default function RootLayout({
         className={`${inter.variable} antialiased`}
       >
         <ReduxProvider>
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </ReduxProvider>
       </body>
     </html>

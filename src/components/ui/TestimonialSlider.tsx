@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Quote, Play } from 'lucide-react';
 
-import { TestimonialSliderProps, TestimonialCardProps } from '@/types/testimonial';
+import { TestimonialSliderProps, TestimonialCardProps } from '@/utils/types';
 
 // Utility function to extract YouTube video ID
 const extractYouTubeId = (url: string): string | null => {
@@ -105,7 +105,6 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 const TestimonialSlider: React.FC<TestimonialSliderProps> = ({
   testimonials,
   title = "Students opinion",
-  showDots = true,
   showArrows = true,
   className = ""
 }) => {

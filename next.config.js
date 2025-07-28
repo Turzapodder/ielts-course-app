@@ -6,6 +6,7 @@ const nextConfig = {
   basePath: isProd ? '/ielts-course-app' : '',
   assetPrefix: isProd ? '/ielts-course-app/' : '',
   images: {
+    unoptimized: true,
     domains: ['api.10minuteschool.com', 'cdn.10minuteschool.com'],
     remotePatterns: [
       {
@@ -16,27 +17,36 @@ const nextConfig = {
   },
   // Enable compression
   compress: true,
-  // Configure headers for SEO
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+  poweredByHeader: false,
+  generateEtags: false,
+  // Experimental features for better performance
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['lucide-react', '@reduxjs/toolkit'],
+  },
+  // Webpack optimizations
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      // Production client-side optimizations
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\/]node_modules[\/]/,
+            name: 'vendors',
+            chunks: 'all',
           },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-        ],
-      },
-    ];
+        },
+      };
+    }
+    return config;
+  },
+
+  // Configure Turbopack for development
+  turbopack: {
+    resolveAlias: {
+      // Add any path aliases if needed
+    },
   },
 };
 

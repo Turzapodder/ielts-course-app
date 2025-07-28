@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { InstructorProfileProps } from '@/types/instructorProfile';
+import { InstructorProfileProps } from '@/utils/types';
 import { ChevronRight } from 'lucide-react';
 
 const InstructorProfile: React.FC<InstructorProfileProps> = ({
@@ -24,7 +24,10 @@ const InstructorProfile: React.FC<InstructorProfileProps> = ({
               alt={name}
               width={73}
               height={73}
-              className="w-full h-full object-cover"
+              className=" object-cover"
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
             />
           </div>
         </div>
@@ -44,11 +47,6 @@ const InstructorProfile: React.FC<InstructorProfileProps> = ({
               <p key={index} className="text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: qualification }}>
               </p>
             ))}
-          </div>
-          
-          {/* IELTS Score */}
-          <div className="text-sm text-gray-600">
-            <span className="font-medium">IELTS:</span> {ieltsScore}
           </div>
         </div>
       </div>

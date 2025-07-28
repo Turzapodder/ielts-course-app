@@ -293,17 +293,21 @@ export const courseApi = createApi({
   }),
   tagTypes: ['Course'],
   endpoints: (builder) => ({
-    getCourseData: builder.query<CourseData, string>({
-      queryFn: async (courseSlug) => {
+    getCourseData: builder.query<CourseData, { courseSlug: string; language?: string }>({
+      queryFn: async ({ courseSlug, language = 'en' }) => {
+        console.log('API Call - courseSlug:', courseSlug, 'language:', language);
         try {
-          // Try the discovery service endpoint first
+          // Use the new localized endpoint with language parameter
+          const apiUrl = `https://api.10minuteschool.com/d.iscovery-service/api/v1/products/${courseSlug}?lang=${language}`;
+          console.log('Fetching from:', apiUrl);
           const response = await fetch(
-            `https://api.10minuteschool.com/discovery-service/api/v1/products/${courseSlug}`,
+            apiUrl,
             {
               method: 'GET',
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'X-TENMS-SOURCE-PLATFORM': 'web',
               },
             }
           );
@@ -315,20 +319,21 @@ export const courseApi = createApi({
             }
           }
           
-          // If that fails, try alternative endpoint
-          const altResponse = await fetch(
-            `https://api.10minuteschool.com/api/v1/products/${courseSlug}`,
+          // Fallback to discovery service endpoint
+          const fallbackResponse = await fetch(
+            `https://api.10minuteschool.com/discovery-service/api/v1/products/${courseSlug}?lang=${language}`,
             {
               method: 'GET',
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'X-TENMS-SOURCE-PLATFORM': 'web',
               },
             }
           );
           
-          if (altResponse.ok) {
-            const apiResponse: APIResponse = await altResponse.json();
+          if (fallbackResponse.ok) {
+            const apiResponse: APIResponse = await fallbackResponse.json();
             if (apiResponse.code === 200 && apiResponse.data) {
               return { data: apiResponse.data };
             }
@@ -343,22 +348,23 @@ export const courseApi = createApi({
           return { data: fallbackData };
         }
       },
-      providesTags: (result, error, courseSlug) => [
-        { type: 'Course', id: courseSlug }
+      providesTags: (result, error, { courseSlug, language }) => [
+        { type: 'Course', id: `${courseSlug}-${language}` }
       ],
     }),
     
-    // Additional endpoint for getting course by ID
-    getCourseDataById: builder.query<CourseData, number>({
-      queryFn: async (courseId) => {
+    // Additional endpoint for getting course by ID with language support
+    getCourseDataById: builder.query<CourseData, { courseId: number; language?: string }>({
+      queryFn: async ({ courseId, language = 'en' }) => {
         try {
           const response = await fetch(
-            `https://api.10minuteschool.com/discovery-service/api/v1/products/${courseId}`,
+            `https://api.10minuteschool.com/d.iscovery-service/api/v1/products/${courseId}?lang=${language}`,
             {
               method: 'GET',
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'X-TENMS-SOURCE-PLATFORM': 'web',
               },
             }
           );
@@ -378,7 +384,7 @@ export const courseApi = createApi({
           return { data: fallbackData };
         }
       },
-      providesTags: (result, error, courseId) => [
+      providesTags: (result, error, { courseId }) => [
         { type: 'Course', id: courseId }
       ],
     }),

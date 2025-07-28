@@ -1,6 +1,8 @@
+"use client";
+
 import React from 'react';
 import Image from 'next/image';
-import { CourseFeature, CourseFeaturesProps } from '@/types/courseStructure';
+import { CourseFeature, CourseFeaturesProps } from '@/utils/types';
 
 
 
