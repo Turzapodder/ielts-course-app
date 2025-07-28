@@ -135,7 +135,7 @@ export default function IELTSCoursePage() {
         observer.unobserve(floatingSectionRef.current);
       }
     };
-  }, [data]); // Add data dependency to re-run when data loads
+  }, [data, floatingSectionRef.current]); // Add data and ref dependency to re-run when data loads or ref becomes available
 
 
 

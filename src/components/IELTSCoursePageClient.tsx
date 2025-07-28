@@ -11,9 +11,7 @@ import { Testimonial, LearningOutcome, CourseFeature, ExclusiveFeature, Carousel
 import { useLanguage } from '@/contexts/LanguageContext';
 
 // Dynamic imports for components
-const HeroSection = dynamic(() => import('./sections/HeroSection'), {
-  loading: () => <LoadingSkeleton variant="custom" height="min-h-[300px]" className="" />
-});
+import HeroSection from './sections/HeroSection';
 
 const InstructorProfile = dynamic(() => import('./sections/InstructorProfile'), {
   loading: () => <LoadingSkeleton variant="card" className="h-48" />
@@ -140,9 +138,11 @@ export default function IELTSCoursePageClient() {
   }));
 
   useEffect(() => {
+    console.log('Client: useEffect triggered. floatingSectionRef.current:', floatingSectionRef.current);
     const observer = new IntersectionObserver(
       ([entry]) => {
         // If floating section is NOT intersecting (i.e., scrolled out of view), show CTA
+        console.log('Client: Intersection entry:', entry.isIntersecting, 'showSidebarCTA (will be):', !entry.isIntersecting);
         setShowSidebarCTA(!entry.isIntersecting);
       },
       {
